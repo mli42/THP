@@ -1,0 +1,3 @@
+# C'est assez évident... La string n'est pas fermée...
+#
+# puts "Bonjour
