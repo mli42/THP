@@ -46,7 +46,7 @@ tw_lst = ["@jcunniet","@PaulLampon","@Aziliz31","@ssoumier","@marionsouzeau","@g
     "@PierreTran","@DelphineCuny","@reesmarc","@lauratenoudji","@ldupin","@carolinedescham","@Lucile_Quillet","@cgabizon",
     "@Allocab","@epenser","@JAGventeprivee","@frwrds","@Laure__Bourdon","@Xavier75","@maximeverner","@s_jourdain","@LoriHelloc"]
 
-def ft_do
+def ft_do(tw_lst)
   puts("Hello")
 end
 
@@ -65,40 +65,76 @@ def ft_two(tw_lst)
   puts("Il y a #{count} handles contenant un numéro.");
 end
 
+def ft_three(tw_lst)
+  puts "Il y a #{tw_lst.map(&:downcase).grep(/aude/).size} handles qui contiennent le prénom Aude."
+end
+
+def ft_four(tw_lst)
+  puts "Il y a #{tw_lst.grep(/^@[A-Z]/).size} handles qui commencent par une majuscule."
+end
+
+def ft_five(tw_lst)
+  puts "Il y a #{tw_lst.grep(/[A-Z]/).size} handles qui contiennent au moins une majuscule."
+end
+
+def ft_six(tw_lst)
+  count = 0
+  tw_lst.each {|str| count += str.count("_")}
+  puts "Il y a #{count} _ dans tous les pseudos confondus."
+end
+
+def ft_seven(tw_lst)
+  puts("La liste triée :")
+  puts tw_lst.sort_by {|user| user.downcase}
+end
+
+def ft_eight(tw_lst)
+  puts("La liste triée :")
+  puts tw_lst.sort_by{|user| user.size}[0..50]
+end
+
+def ft_nine(tw_lst)
+  puts "@epenser est #{tw_lst.index("@epenser")} dans l'array."
+end
+
 def ft_quit(tw_lst)
   puts("\n\t\033[0;1;92mAu revoir !\033[0m\n\n")
 end
 
 # Algorithm
 
-choice = 0
-loop_var = {1 => ["Combien y a-t-il de journalistes dans ce array ?", method(:ft_one)],
-            2 => ["Combien d'handle contiennent un numéro ?", method(:ft_two)],
-            3 => ["Combien d'handle contiennent les 4 lettres du prénom \"Aude\" à la suite (sans prendre en compte les majuscules) ?", method(:ft_do)],
-            4 => ["Combien commencent par une majuscule (première lettre juste après le @) ?", method(:ft_do)],
-            5 => ["Combien contiennent au moins une majuscule ?", method(:ft_do)],
-            6 => ["Combien y a-t-il de underscore _ dans tous les pseudos confondus ?", method(:ft_do)],
-            7 => ["Trie la liste de handle par ordre alphabétique.", method(:ft_do)],
-            8 => ["Quels sont les 50 handles les plus courts de ce array ?", method(:ft_do)],
-            9 => ["Quelle est la position dans l'array de la personne @epenser ?", method(:ft_do)],
-            10 => ["Quit", method(:ft_quit)]}
+def perform(tw_lst)
+  choice = 0
+  loop_var = {1 => ["Combien y a-t-il de journalistes dans ce array ?", method(:ft_one)],
+    2 => ["Combien d'handle contiennent un numéro ?", method(:ft_two)],
+    3 => ["Combien d'handle contiennent les 4 lettres du prénom \"Aude\" à la suite (sans prendre en compte les majuscules) ?", method(:ft_three)],
+    4 => ["Combien commencent par une majuscule (première lettre juste après le @) ?", method(:ft_four)],
+    5 => ["Combien contiennent au moins une majuscule ?", method(:ft_five)],
+    6 => ["Combien y a-t-il de underscore _ dans tous les pseudos confondus ?", method(:ft_six)],
+    7 => ["Trie la liste de handle par ordre alphabétique.", method(:ft_seven)],
+    8 => ["Quels sont les 50 handles les plus courts de ce array ?", method(:ft_eight)],
+    9 => ["Quelle est la position dans l'array de la personne @epenser ?", method(:ft_nine)],
+    10 => ["Quit", method(:ft_quit)]}
 
-while (choice != 10) do
-  puts("Please, select one of these options:")
-  for item in loop_var.keys do
-    puts("%d : %s" %[item, loop_var[item][0]])
+  while (choice != 10) do
+    puts("Please, select one of these options:")
+    for item in loop_var.keys do
+      puts("%d : %s" %[item, loop_var[item][0]])
+    end
+
+    print("\nSo, what's your choice ? : ")
+    choice = gets.to_i
+
+    print("\n")
+    if (choice > 0 and choice < 11)
+      print("\033[0;1;94m")
+      loop_var[choice][1].call(tw_lst)
+      print("\033[0m")
+    else
+      print("\033[0;1;91mWrong input, try again !\033[0m\n")
+    end
+    print("\n")
   end
-
-  print("\nSo, what's your choice ? : ")
-  choice = gets.to_i
-
-  print("\n")
-  if (choice > 0 and choice < 11)
-    print("\033[0;1;94m")
-    loop_var[choice][1].call(tw_lst)
-    print("\033[0m")
-  else
-      print("\033[0;1mWrong input, try again !\033[0m\n")
-  end
-  print("\n")
 end
+
+perform(tw_lst)
