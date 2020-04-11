@@ -9,7 +9,9 @@
 
 def perform(tab)
   cpy = tab.dup
-  cpy.delete_at(cpy.index(cpy.min))
+  if (cpy.empty? == false)
+    cpy.delete_at(cpy.index(cpy.min))
+  end
   print("The new list : #{cpy}\n")
 end
 
